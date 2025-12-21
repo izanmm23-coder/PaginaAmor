@@ -10,7 +10,9 @@
   --rojo:#b91c1c;
   --rosa:#fb7185;
   --dorado:#facc15;
-  --claro:#fff7ed;
+  --fondo1:#450a0a;
+  --fondo2:#1f2933;
+  --texto:#fff7ed;
 }
 
 *{box-sizing:border-box;}
@@ -18,12 +20,11 @@
 body{
   margin:0;
   font-family:'Segoe UI', system-ui, sans-serif;
-  background:linear-gradient(180deg,#450a0a,#1f2933);
-  color:var(--claro);
+  background:linear-gradient(180deg,var(--fondo1),var(--fondo2));
+  color:var(--texto);
   overflow-x:hidden;
 }
 
-/* CONTENEDOR */
 .container{
   max-width:900px;
   margin:auto;
@@ -32,105 +33,145 @@ body{
   z-index:2;
 }
 
-h1,h2{ text-align:center; }
-h1{ font-size:2.2rem; margin:30px 0; color:var(--dorado); }
-h2{ margin-top:60px; margin-bottom:20px; color:var(--rosa); }
+h1{
+  text-align:center;
+  font-size:2.2rem;
+  color:var(--dorado);
+  margin:40px 0;
+}
 
-p{ font-size:1.05rem; line-height:1.7; margin-bottom:16px; text-align:justify; }
-ul{ padding-left:18px; } li{ margin-bottom:10px; }
+h2{
+  text-align:center;
+  color:var(--rosa);
+  margin:60px 0 20px;
+}
 
-/* FADE ANIMACION */
-.fade{ opacity:0; transform:translateY(20px); transition:all .9s ease; }
-.fade.show{ opacity:1; transform:translateY(0); }
+p, li{
+  font-size:1.05rem;
+  line-height:1.7;
+}
 
-/* CARRUSEL MEJORADO */
-.carousel-container{
+ul{padding-left:20px;}
+li{margin-bottom:10px;}
+
+.fade{
+  opacity:0;
+  transform:translateY(20px);
+  transition:all .9s ease;
+}
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* CARRUSEL */
+.carousel{
   position:relative;
-  width:100%;
-  max-width:1000px;
-  margin:35px auto;
   overflow:hidden;
   border-radius:18px;
+  margin:35px 0;
   box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 .carousel-track{
   display:flex;
   transition:transform .6s ease;
 }
-.carousel-track img{
+.carousel img{
   width:100%;
-  flex-shrink:0;
   height:300px;
   object-fit:cover;
+  flex-shrink:0;
 }
-.prev, .next{
+.prev,.next{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:rgba(0,0,0,0.5);
+  background:rgba(0,0,0,.5);
   border:none;
   color:white;
   font-size:24px;
   padding:8px 12px;
   border-radius:50%;
-  cursor:pointer;
-  z-index:2;
 }
-.prev{ left:10px; }
-.next{ right:10px; }
+.prev{left:10px;}
+.next{right:10px;}
+.prev:active,.next:active{
+  transform:translateY(-50%) scale(.9);
+}
 
 /* BOTONES */
-.music-btn, .secret-btn{
-  position:fixed; right:20px; background:var(--rojo); color:white;
-  border:none; border-radius:50px; padding:12px 18px; font-size:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,.5); z-index:3;
+.music-btn,.sad-btn{
+  position:fixed;
+  right:20px;
+  border:none;
+  color:white;
+  box-shadow:0 6px 15px rgba(0,0,0,.4);
+  transition:transform .15s ease, box-shadow .15s ease;
+  z-index:3;
 }
-.music-btn{bottom:20px;} .secret-btn{bottom:70px;}
-
-/* MENSAJES */
-.secret, .final{
-  background:rgba(0,0,0,.5); border-radius:16px; padding:20px; margin-top:30px; display:none;
+.music-btn{
+  bottom:20px;
+  background:var(--rojo);
+  padding:14px 20px;
+  border-radius:50px;
+}
+.sad-btn{
+  bottom:80px;
+  background:var(--rosa);
+  padding:14px 18px;
+  border-radius:18px;
+}
+.music-btn:active,.sad-btn:active{
+  transform:scale(.9);
+  box-shadow:0 3px 8px rgba(0,0,0,.6);
 }
 
-/* CORAZONES Y NIEVE */
-.effects{ position:fixed; top:0;left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
-.effect{ position:absolute; animation:fall linear infinite; }
-@keyframes fall{ 0%{transform:translateY(-10vh);opacity:0;} 10%{opacity:1;} 100%{transform:translateY(110vh);opacity:0;} }
-
-/* CORAZONES TOQUE */
-.touch-heart{ position:fixed; animation:pop 1s ease forwards; pointer-events:none; }
-@keyframes pop{ 0%{transform:scale(0);opacity:1;} 100%{transform:scale(2);opacity:0;} }
-
-footer{ margin:80px 0 30px; text-align:center; color:#fcd34d; }
+/* CORAZONES */
+.hearts{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
+.heart{
+  position:absolute;
+  animation:fall linear infinite;
+  opacity:.6;
+}
+@keyframes fall{
+  from{transform:translateY(-10vh) rotate(0deg);}
+  to{transform:translateY(110vh) rotate(360deg);}
+}
 
 @media(max-width:600px){
   h1{font-size:1.9rem;}
   h2{font-size:1.6rem;}
-  p{font-size:1rem;}
-  .carousel-track img{height:200px;}
+  .carousel img{height:210px;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="effects" id="effects"></div>
+<div class="hearts" id="hearts"></div>
 
-<audio id="music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
+<button class="sad-btn" id="sadBtn">💔 Ábrelo cuando estés triste</button>
+<button class="music-btn" id="musicBtn">🎵 Música</button>
+
+<audio id="music" loop preload="auto">
+  <source src="musica/musica.mp3" type="audio/mpeg">
 </audio>
-
-<button class="music-btn" id="musicBtn">❤️ Música</button>
-<button class="secret-btn" id="secretBtn">Ábrelo cuando estés triste ❤️</button>
 
 <div class="container">
 
-<h1 class="fade">NUESTRA PÁGINA WEB</h1>
-<p class="fade">
+<h1 class="fade">NUESTRA PAGINA WEB</h1>
+
+<p id="mensaje-triste" class="fade">
 He creado esta pagina web para que siempre que te apetezca o estés mal, puedas recordar los momentos mas bonitos que hemos vivido juntos y lo mucho que te quiero y te voy a querer pase lo que pase. A partir de ahora, encontraras un pedazo extraido de mi corazón que he dejado en esta web para que nunca olvides lo que he sentido, siento y sentiré por ti el resto de mi vida.
 </p>
 
 <h2 class="fade">Porque me gustas tanto</h2>
+
 <ul class="fade">
 <li>Porque me importas más de lo que puedo explicar</li>
 <li>Porque me haces sentir querido.</li>
@@ -147,18 +188,18 @@ He creado esta pagina web para que siempre que te apetezca o estés mal, puedas 
 <li>Porque contigo soy feliz, así de simple.</li>
 </ul>
 
-<!-- CARRUSEL 1 -->
-<div class="carousel-container fade">
+<div class="carousel fade" data-carousel>
   <div class="carousel-track">
-    <img src="foto1.jpg" class="active">
-    <img src="foto2.jpg">
-    <img src="foto3.jpg">
+    <img src="imagenes/foto1.jpg">
+    <img src="imagenes/foto2.jpg">
+    <img src="imagenes/foto3.jpg">
   </div>
   <button class="prev">&#10094;</button>
   <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Felices Fiestas</h2>
+
 <p class="fade">
 Este año ha tenido de todo, y no siempre cosas buenas. Ha habido momentos de estrés, de cansancio y de sentir que las cosas se nos venían encima. Días en los que parecía que no llegábamos a todo y en los que la paciencia se agotaba demasiado rápido. Aun así, en medio de todo eso, hemos seguido adelante, compartiendo la rutina, los silencios y también las conversaciones difíciles que tanto cuestan pero que tanto importan.
 </p>
@@ -169,18 +210,18 @@ Estas fiestas llegan como una pausa necesaria, no para fingir que todo ha sido p
 Por eso, para mí, estas fiestas significan seguir aquí contigo. Significan elegirnos una vez más, sin promesas vacías ni palabras bonitas de más. Solo la certeza de que, incluso en los momentos difíciles, seguimos caminando en la misma dirección.
 </p>
 
-<!-- CARRUSEL 2 -->
-<div class="carousel-container fade">
+<div class="carousel fade" data-carousel>
   <div class="carousel-track">
-    <img src="foto4.jpg">
-    <img src="foto5.jpg">
-    <img src="foto6.jpg">
+    <img src="imagenes/foto4.jpg">
+    <img src="imagenes/foto5.jpg">
+    <img src="imagenes/foto6.jpg">
   </div>
   <button class="prev">&#10094;</button>
   <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Gracias por ser tú</h2>
+
 <p class="fade">
 Gracias por ser quien eres incluso en los días complicados. Por no esconder tus emociones y por permitirme ver tus miedos, tus inseguridades y también tu fuerza. Gracias por hablar cuando duele, por escuchar cuando no es fácil y por intentar entenderme incluso cuando no estamos de acuerdo.
 </p>
@@ -191,18 +232,18 @@ Gracias por quedarte cuando las cosas se ponen cuesta arriba. Por no rendirte a 
 No te doy las gracias por ser perfecta, porque no lo eres y no lo necesitas. Te las doy por ser real, por ser honesta y por ser tú, con todo lo que eso implica. Y porque, con todo y con eso, sigues siendo la persona con la que quiero compartir mi vida.
 </p>
 
-<!-- CARRUSEL 3 -->
-<div class="carousel-container fade">
+<div class="carousel fade" data-carousel>
   <div class="carousel-track">
-    <img src="foto7.jpg">
-    <img src="fotillo.jpg">
-    <img src="foto9.jpg">
+    <img src="imagenes/foto7.jpg">
+    <img src="imagenes/foto8.jpg">
+    <img src="imagenes/foto9.jpg">
   </div>
   <button class="prev">&#10094;</button>
   <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Lo que queda por llegar</h2>
+
 <p class="fade">
 No tengo respuestas para todo ni puedo prometer que el camino será fácil. Sé que vendrán más retos, más discusiones y momentos en los que habrá que volver a elegir quedarse. Pero también sé que todo lo que hemos pasado hasta ahora nos ha enseñado a hacerlo mejor, con más paciencia y más comprensión.
 </p>
@@ -213,95 +254,76 @@ Lo que queda por llegar no lo imagino perfecto, lo imagino verdadero. Con días 
 Si algo tengo claro es que quiero enfrentar lo que venga a tu lado. No porque sea fácil, sino porque vale la pena. Seguimos aquí, y mientras sigamos eligiéndonos, todo lo que queda por llegar merece la pena vivirlo juntos.
 </p>
 
-<!-- CARRUSEL 4 -->
-<div class="carousel-container fade">
+<div class="carousel fade" data-carousel>
   <div class="carousel-track">
-    <img src="foto10.jpg">
-    <img src="foto11.jpg">
-    <img src="foto12.jpg">
+    <img src="imagenes/foto10.jpg">
+    <img src="imagenes/foto11.jpg">
+    <img src="imagenes/foto12.jpg">
   </div>
   <button class="prev">&#10094;</button>
   <button class="next">&#10095;</button>
 </div>
 
-<div class="secret" id="secret">
-<p>Si estás leyendo esto es porque hoy no ha sido fácil. Quiero que recuerdes: no estás sola, nunca lo has estado y nunca lo estarás mientras yo esté aquí. Respira, tómate tu tiempo… yo sigo contigo.</p>
-</div>
-
-<div class="final" id="final">
-<h2>Un último mensaje</h2>
-<p>Puedo equivocarme, pero seguimos aquí. Y mientras sigamos eligiéndonos, todo merece la pena.</p>
-</div>
-
-<footer class="fade">
-24 · Calendario de Adviento ❤️
-</footer>
-
 </div>
 
 <script>
-// FADE
-const obs=new IntersectionObserver(e=>{e.forEach(x=>x.isIntersecting&&x.target.classList.add('show'));},{threshold:.2});
+/* FADE */
+const obs=new IntersectionObserver(e=>{
+  e.forEach(x=>x.isIntersecting&&x.target.classList.add('show'));
+},{threshold:.2});
 document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
 
-// CARRUSEL CON FLECHAS Y AUTOPLAY
-document.querySelectorAll('.carousel-container').forEach(carousel=>{
-  const track = carousel.querySelector('.carousel-track');
-  const slides = track.querySelectorAll('img');
-  const prev = carousel.querySelector('.prev');
-  const next = carousel.querySelector('.next');
-  let index = 0;
-
-  function showSlide(i){
-    index = (i + slides.length) % slides.length;
-    track.style.transform = `translateX(-${index * 100}%)`;
-  }
-
-  prev.addEventListener('click', ()=> showSlide(index-1));
-  next.addEventListener('click', ()=> showSlide(index+1));
-
-  setInterval(()=> showSlide(index+1), 4000);
+/* CARRUSEL */
+document.querySelectorAll('[data-carousel]').forEach(c=>{
+  const t=c.querySelector('.carousel-track');
+  const imgs=t.children;
+  let i=0;
+  const show=n=>{
+    i=(n+imgs.length)%imgs.length;
+    t.style.transform=`translateX(-${i*100}%)`;
+  };
+  c.querySelector('.prev').onclick=()=>show(i-1);
+  c.querySelector('.next').onclick=()=>show(i+1);
+  setInterval(()=>show(i+1),4000);
 });
 
-// MÚSICA
+/* MUSICA */
 const music=document.getElementById('music');
-document.getElementById('musicBtn').onclick=()=>{ music.paused?music.play():music.pause(); };
+const musicBtn=document.getElementById('musicBtn');
+music.volume=.3;
+let playing=false;
+musicBtn.onclick=()=>{
+  if(!playing){
+    music.play().then(()=>{
+      musicBtn.textContent='⏸ Música';
+      playing=true;
+    });
+  }else{
+    music.pause();
+    musicBtn.textContent='🎵 Música';
+    playing=false;
+  }
+};
 
-// MENSAJE SECRETO
-document.getElementById('secretBtn').onclick=()=>{ document.getElementById('secret').style.display='block'; };
+/* BOTON TRISTE */
+document.getElementById('sadBtn').onclick=()=>{
+  document.getElementById('mensaje-triste')
+    .scrollIntoView({behavior:'smooth'});
+};
 
-// MENSAJE FINAL
-window.addEventListener('scroll',()=>{ if(window.innerHeight+scrollY>=document.body.offsetHeight-50) document.getElementById('final').style.display='block'; });
-
-// CORAZONES + NIEVE
-const effects=document.getElementById('effects');
-for(let i=0;i<30;i++){
-  const e=document.createElement('div');
-  e.className='effect';
-  e.innerHTML=Math.random()>0.5?'❤️':'❄️';
-  e.style.left=Math.random()*100+'vw';
-  e.style.fontSize=12+Math.random()*20+'px';
-  e.style.animationDuration=8+Math.random()*10+'s';
-  e.style.animationDelay=Math.random()*-20+'s';
-  effects.appendChild(e);
-}
-
-// CORAZONES AL TOCAR
-document.addEventListener('click',e=>{
+/* CORAZONES */
+const hearts=document.getElementById('hearts');
+const count=window.innerWidth<600?15:25;
+for(let i=0;i<count;i++){
   const h=document.createElement('div');
-  h.className='touch-heart';
-  h.innerHTML='❤️';
-  h.style.left=e.clientX+'px';
-  h.style.top=e.clientY+'px';
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1000);
-});
+  h.className='heart';
+  h.textContent='❤️';
+  h.style.left=Math.random()*100+'vw';
+  h.style.fontSize=14+Math.random()*18+'px';
+  h.style.animationDuration=8+Math.random()*10+'s';
+  hearts.appendChild(h);
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-

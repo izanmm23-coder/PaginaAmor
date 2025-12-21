@@ -43,10 +43,41 @@ ul{ padding-left:18px; } li{ margin-bottom:10px; }
 .fade{ opacity:0; transform:translateY(20px); transition:all .9s ease; }
 .fade.show{ opacity:1; transform:translateY(0); }
 
-/* CARRUSEL */
-.carousel{ margin:35px 0; overflow:hidden; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.5); position:relative;}
-.carousel-track{ display:flex; transition:transform .6s ease;}
-.carousel img{ width:100%; height:240px; object-fit:cover; }
+/* CARRUSEL MEJORADO */
+.carousel-container{
+  position:relative;
+  width:100%;
+  max-width:900px;
+  margin:35px auto;
+  overflow:hidden;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.carousel-track{
+  display:flex;
+  transition:transform .6s ease;
+}
+.carousel-track img{
+  width:100%;
+  flex-shrink:0;
+  height:240px;
+  object-fit:cover;
+}
+.prev, .next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.5);
+  border:none;
+  color:white;
+  font-size:24px;
+  padding:8px 12px;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:2;
+}
+.prev{ left:10px; }
+.next{ right:10px; }
 
 /* BOTONES */
 .music-btn, .secret-btn{
@@ -76,7 +107,7 @@ footer{ margin:80px 0 30px; text-align:center; color:#fcd34d; }
   h1{font-size:1.9rem;}
   h2{font-size:1.6rem;}
   p{font-size:1rem;}
-  .carousel img{height:230px;}
+  .carousel-track img{height:200px;}
 }
 </style>
 </head>
@@ -86,7 +117,7 @@ footer{ margin:80px 0 30px; text-align:center; color:#fcd34d; }
 <div class="effects" id="effects"></div>
 
 <audio id="music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
+  <source src="musica/musica.mp3" type="audio/mpeg">
 </audio>
 
 <button class="music-btn" id="musicBtn">❤️ Música</button>
@@ -116,10 +147,15 @@ He creado esta pagina web para que siempre que te apetezca o estés mal, puedas 
 <li>Porque contigo soy feliz, así de simple.</li>
 </ul>
 
-<div class="carousel fade" data-carousel>
+<!-- CARRUSEL 1 -->
+<div class="carousel-container fade">
   <div class="carousel-track">
-    <img src="foto1.jpg"><img src="foto2.jpg"><img src="foto3.jpg">
+    <img src="imagenes/foto1.jpg" class="active">
+    <img src="imagenes/foto2.jpg">
+    <img src="imagenes/foto3.jpg">
   </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Felices Fiestas</h2>
@@ -133,10 +169,15 @@ Estas fiestas llegan como una pausa necesaria, no para fingir que todo ha sido p
 Por eso, para mí, estas fiestas significan seguir aquí contigo. Significan elegirnos una vez más, sin promesas vacías ni palabras bonitas de más. Solo la certeza de que, incluso en los momentos difíciles, seguimos caminando en la misma dirección.
 </p>
 
-<div class="carousel fade" data-carousel>
+<!-- CARRUSEL 2 -->
+<div class="carousel-container fade">
   <div class="carousel-track">
-    <img src="foto4.jpg"><img src="foto5.jpg"><img src="foto6.jpg">
+    <img src="imagenes/foto4.jpg">
+    <img src="imagenes/foto5.jpg">
+    <img src="imagenes/foto6.jpg">
   </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Gracias por ser tú</h2>
@@ -150,10 +191,15 @@ Gracias por quedarte cuando las cosas se ponen cuesta arriba. Por no rendirte a 
 No te doy las gracias por ser perfecta, porque no lo eres y no lo necesitas. Te las doy por ser real, por ser honesta y por ser tú, con todo lo que eso implica. Y porque, con todo y con eso, sigues siendo la persona con la que quiero compartir mi vida.
 </p>
 
-<div class="carousel fade" data-carousel>
+<!-- CARRUSEL 3 -->
+<div class="carousel-container fade">
   <div class="carousel-track">
-    <img src="foto7.jpg"><img src="foto8.jpg"><img src="foto9.jpg">
+    <img src="imagenes/foto7.jpg">
+    <img src="imagenes/foto8.jpg">
+    <img src="imagenes/foto9.jpg">
   </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
 </div>
 
 <h2 class="fade">Lo que queda por llegar</h2>
@@ -167,10 +213,15 @@ Lo que queda por llegar no lo imagino perfecto, lo imagino verdadero. Con días 
 Si algo tengo claro es que quiero enfrentar lo que venga a tu lado. No porque sea fácil, sino porque vale la pena. Seguimos aquí, y mientras sigamos eligiéndonos, todo lo que queda por llegar merece la pena vivirlo juntos.
 </p>
 
-<div class="carousel fade" data-carousel>
+<!-- CARRUSEL 4 -->
+<div class="carousel-container fade">
   <div class="carousel-track">
-    <img src="foto10.jpg"><img src="foto11.jpg"><img src="foto12.jpg">
+    <img src="imagenes/foto10.jpg">
+    <img src="imagenes/foto11.jpg">
+    <img src="imagenes/foto12.jpg">
   </div>
+  <button class="prev">&#10094;</button>
+  <button class="next">&#10095;</button>
 </div>
 
 <div class="secret" id="secret">
@@ -193,10 +244,23 @@ Si algo tengo claro es que quiero enfrentar lo que venga a tu lado. No porque se
 const obs=new IntersectionObserver(e=>{e.forEach(x=>x.isIntersecting&&x.target.classList.add('show'));},{threshold:.2});
 document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
 
-// CARRUSEL
-document.querySelectorAll('[data-carousel]').forEach(c=>{
-  const t=c.querySelector('.carousel-track');let i=0;
-  setInterval(()=>{i=(i+1)%3;t.style.transform=`translateX(-${i*100}%)`;},4000);
+// CARRUSEL CON FLECHAS Y AUTOPLAY
+document.querySelectorAll('.carousel-container').forEach(carousel=>{
+  const track = carousel.querySelector('.carousel-track');
+  const slides = track.querySelectorAll('img');
+  const prev = carousel.querySelector('.prev');
+  const next = carousel.querySelector('.next');
+  let index = 0;
+
+  function showSlide(i){
+    index = (i + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  prev.addEventListener('click', ()=> showSlide(index-1));
+  next.addEventListener('click', ()=> showSlide(index+1));
+
+  setInterval(()=> showSlide(index+1), 4000);
 });
 
 // MÚSICA

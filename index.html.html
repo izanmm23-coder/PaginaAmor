@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nuesta Pagina Web</title>
+  <style>
+    :root{--bg:#0f1724;--card:#111827;--accent:#e11d48;--muted:#9ca3af;--glass:rgba(255,255,255,0.04)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#e6eef8;background:linear-gradient(180deg,#071028 0%, #0f1724 100%);-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:900px;margin:36px auto;padding:24px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#fb7185);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    /* Sections */
+    section.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:14px;padding:18px;margin:18px 0;box-shadow:0 8px 30px rgba(2,6,23,.6);backdrop-filter:blur(4px)}
+    section.card h2{margin:0 0 8px;font-size:20px}
+    .grid{display:grid;grid-template-columns:1fr 260px;gap:16px}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}}
+    .text-list{line-height:1.6}
+    .text-list li{margin:10px 0;background:var(--glass);padding:10px;border-radius:10px}
+
+    /* Carousel */
+    .carousel{position:relative;border-radius:10px;overflow:hidden}
+    .slides{display:flex;transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+    .slide{min-width:100%;height:260px;background:#111;display:flex;align-items:center;justify-content:center;color:#fff;position:relative}
+    .slide img{width:100%;height:100%;object-fit:cover;display:block}
+    .carousel .btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);border:0;color:white;padding:8px;border-radius:8px;cursor:pointer}
+    .prev{left:10px}.next{right:10px}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:18px}
+    .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(#fb7185,#e11d48)}
+    .tl-item{position:relative;padding:12px 12px;margin:12px 0;background:rgba(255,255,255,0.02);border-radius:10px}
+    .tl-item::before{content:'';position:absolute;left:-12px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(225,29,72,0.12)}
+
+    /* Secret button */
+    .secret{display:inline-block;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;border:1px dashed rgba(255,255,255,0.04);cursor:pointer}
+
+    /* Footer / audio */
+    .controls{display:flex;gap:8px;align-items:center}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);z-index:999}
+    .lightbox img{max-width:95%;max-height:85%;border-radius:10px}
+
+    /* Falling hearts canvas */
+    #hearts{position:fixed;left:0;top:0;pointer-events:none;width:100%;height:100%;z-index:0}
+
+    /* Small helper */
+    .muted{color:var(--muted);font-size:14px}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#fb7185);color:white;border:0;padding:10px 14px;border-radius:10px;cursor:pointer}
+  </style>
+</head>
+<body>
+<canvas id="hearts"></canvas>
+<div class="container">
+  <header>
+    <div class="logo">TE AMO</div>
+    <div>
+      <h1> Nuestra Pagina Web</h1>
+      <p class="lead">He creado esta pagina web para que siempre que te apetezca o estés mal, puedas recordar los momentos mas bonitos que hemos vivido juntos y lo mucho que te quiero y te voy a querer pase lo que pase. A partir de ahora, encontraras un pedazo extraido de mi corazón que he dejado en esta web para que nunca olvides lo que he sentido, siento y sentiré por ti el resto de mi vida..</p>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <div class="controls">
+        <button id="audioToggle" class="btn-primary">Reproducir música</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Por qué me gustas tanto -->
+  <section id="por-que" class="card">
+    <h2>Por qué me gustas tanto</h2>
+    <div class="grid">
+      <div>
+        <ul class="text-list" id="likes-list">
+          <li>Porque me importas más de lo que puedo explicar.</li>
+          <li>Porque me haces sentir querido.</li>
+          <li>Porque me gusta cómo me miras.</li>
+          <li>Porque contigo puedo ser yo al cien por cien.</li>
+          <li>Porque me aceptas con mis defectos.</li>
+	        <li>Porque cada recuerdo contigo vale la pena.</li>
+	        <li>Porque me gusta soñar contigo.</li>
+          <li>Porque haces especiales los días normales.</li>
+          <li>Porque tu risa es de mis sonidos favoritos.</li>
+          <li>Porque haces que el tiempo pase volando cuando estoy contigo.</li>
+          <li>Porque me gusta imaginar un futuro a tu lado.</li>
+          <li>Porque eres parte de mis pensamientos diarios.</li>
+          <li>Porque contigo soy feliz, así de simple.</li>
+
+        </ul>
+        <p class="muted"></p>
+      </div>
+      <div>
+        <div class="carousel" aria-hidden="false">
+          <div class="slides" id="slides-1">
+            <div class="slide"><img src="https://drive.google.com/file/d/1ul7pB6Nt6-Dlc9NaodJmsPw3i4CYbycO/view?usp=drive_link" alt="foto1"></div>
+            <div class="slide"><img src="https://drive.google.com/uc?export=view&id=1ul7pB6Nt6-Dlc9NaodJmsPw3i4CYbycO" alt="foto2"></div>
+            <div class="slide"><img src="https://picsum.photos/900/600?random=3" alt="foto3"></div>
+          </div>
+          <button class="btn prev" id="prev1">◀</button>
+          <button class="btn next" id="next1">▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cada día que pasa te quiero más (timeline) -->
+  <section id="cada-dia" class="card">
+    <h2>Cada día que pasa te quiero más</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <strong>Nuestro comienzo</strong>
+        <div class="muted">Ese primer día en que todo cambió.</div>
+        <p>Me gustaba tu forma de hablar, pero no sabía que iba a convertirme en tu persona favorita.</p>
+      </div>
+      <div class="tl-item">
+        <strong>Primer viaje</strong>
+        <div class="muted">Una escapada que todavía recuerdo.</div>
+        <p>Nos reímos tanto que tuvimos que parar el coche solo para no desmayarnos de la risa.</p>
+      </div>
+      <div class="tl-item">
+        <strong>Hoy</strong>
+        <div class="muted">Y todos los pequeños momentos.</div>
+        <p>Cada detalle que compartes me hace quererte más.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Felices Fiestas -->
+  <section id="fiestas" class="card">
+    <h2>Felices Fiestas</h2>
+    <p>Estas fiestas son más bonitas porque las paso contigo. Ojalá que este año nos regale más mantitas, pelis y turrón del bueno.</p>
+    <div style="margin-top:12px"><button class="secret" id="secretBtn">Hazme un secreto</button></div>
+  </section>
+
+  <!-- Momentos inolvidables (galería) -->
+  <section id="momentos" class="card">
+    <h2>Momentos inolvidables</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px}">
+      <img class="thumb" src="https://picsum.photos/400/300?random=11" alt="m1" style="width:100%;border-radius:8px;cursor:pointer">
+      <img class="thumb" src="https://picsum.photos/400/300?random=12" alt="m2" style="width:100%;border-radius:8px;cursor:pointer">
+      <img class="thumb" src="https://picsum.photos/400/300?random=13" alt="m3" style="width:100%;border-radius:8px;cursor:pointer">
+    </div>
+  </section>
+
+  <!-- Nuestros planes por venir -->
+  <section id="planes" class="card">
+    <h2>Nuestros planes por venir</h2>
+    <ul>
+      <li>Un viaje improvisado sin GPS (o con mucho GPS).</li>
+      <li>Aprender a cocinar algo sin provocar alarma de incendios.</li>
+      <li>Más fotos, menos excusas.</li>
+      <li>Seguir sumando domingos juntos.</li>
+    </ul>
+    <p class="muted">Puedes editar esta lista o añadir checkbox dinámicos si alojas el HTML en un servidor con backend.</p>
+  </section>
+
+  <!-- Cosas que solo nosotros entendemos -->
+  <section id="secretos" class="card">
+    <h2>Cosas que solo tú y yo entendemos</h2>
+    <p>La mejor colección de frases incomprensibles para el resto del mundo pero perfectas para nosotros. "La mirada de la pizza", "ese día del parque" y todo lo demás.</p>
+  </section>
+
+  <!-- Gracias por ser tú -->
+  <section id="gracias" class="card">
+    <h2>Gracias por ser tú</h2>
+    <p>Gracias por elegir estar aquí conmigo. Si alguna vez dudas cuánto te quiero, vuelve a esta página. Siempre habrá más palabras por escribir.</p>
+  </section>
+
+  <footer style="text-align:center;margin-top:22px;color:var(--muted)">Hecho con cariño · Reemplaza las imágenes con las tuyas</footer>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" role="dialog" aria-hidden="true"><img src="" alt="" id="lightboxImg"></div>
+
+<!-- Audio (coloca tu archivo .mp3 junto al html y cambia src si quieres) -->
+<audio id="bgAudio" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2021/08/08/audio_3a2b0b6c3f.mp3?filename=romantic-112537.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio.
+</audio>
+
+<script>
+// Simple carousel
+function setupCarousel(slidesId, prevId, nextId){
+  const slides = document.getElementById(slidesId);
+  let idx=0;
+  const total = slides.children.length;
+  function show(i){ slides.style.transform = 'translateX(' + (-i*100) + '%)'; }
+  document.getElementById(prevId).addEventListener('click',()=>{ idx=(idx-1+total)%total; show(idx); });
+  document.getElementById(nextId).addEventListener('click',()=>{ idx=(idx+1)%total; show(idx); });
+  // auto
+  setInterval(()=>{ idx=(idx+1)%total; show(idx); },4500);
+}
+setupCarousel('slides-1','prev1','next1');
+
+// Lightbox for gallery
+const thumbs = document.querySelectorAll('.thumb');
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightboxImg');
+thumbs.forEach(t=> t.addEventListener('click',()=>{ lbImg.src = t.src; lightbox.style.display='flex'; lightbox.setAttribute('aria-hidden','false'); }));
+lightbox.addEventListener('click',()=>{ lightbox.style.display='none'; lightbox.setAttribute('aria-hidden','true'); lbImg.src=''; });
+
+// Secret button
+const secretBtn = document.getElementById('secretBtn');
+secretBtn.addEventListener('click',()=>{
+  alert('Te quiero más de lo que cabría en cualquier calendario. PD: tienes un abrazo pendiente.');
+});
+
+// Audio control
+const audio = document.getElementById('bgAudio');
+const audioBtn = document.getElementById('audioToggle');
+let audioPlaying=false;
+audioBtn.addEventListener('click',()=>{
+  if(!audioPlaying){ audio.play(); audioBtn.textContent='Pausar música'; audioPlaying=true; }
+  else{ audio.pause(); audioBtn.textContent='Reproducir música'; audioPlaying=false; }
+});
+
+// Falling hearts animation (canvas)
+(function(){
+  const canvas = document.getElementById('hearts');
+  const ctx = canvas.getContext('2d');
+  let w=canvas.width=innerWidth; let h=canvas.height=innerHeight;
+  window.addEventListener('resize',()=>{ w=canvas.width=innerWidth; h=canvas.height=innerHeight; });
+  const hearts=[];
+  function rand(min,max){return Math.random()*(max-min)+min}
+  function Heart(){
+    this.x=rand(0,w); this.y=rand(-50,h);
+    this.size=rand(6,18); this.speed=rand(0.3,1.2); this.ax=rand(-0.3,0.3);
+    this.opacity=rand(0.3,0.9);
+  }
+  Heart.prototype.draw=function(){
+    const s=this.size; const x=this.x; const y=this.y; const o=this.opacity;
+    ctx.save(); ctx.beginPath(); ctx.translate(x,y);
+    ctx.scale(s/20,s/20);
+    ctx.moveTo(0,0); ctx.bezierCurveTo(0,-8,-10,-18,-20,-18);
+    ctx.bezierCurveTo(-42,-18,-42,4,-42,4);
+    ctx.bezierCurveTo(-42,22,-20,36,0,52);
+    ctx.bezierCurveTo(20,36,42,22,42,4);
+    ctx.bezierCurveTo(42,4,42,-18,20,-18);
+    ctx.bezierCurveTo(10,-18,0,-8,0,0);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,82,124,'+o+')'; ctx.fill(); ctx.restore();
+  };
+  function spawn(){ if(hearts.length<80) hearts.push(new Heart()); }
+  function update(){ ctx.clearRect(0,0,w,h); for(let i=hearts.length-1;i>=0;i--){ const H=hearts[i]; H.y += H.speed + 0.3; H.x += H.ax; H.draw(); if(H.y>h+60||H.x<-60||H.x>w+60) hearts.splice(i,1); } spawn(); requestAnimationFrame(update);} update();
+})();
+
+// Small helper: replace placeholder images instruction (no-op)
+console.log('Página cargada. Reemplaza las imágenes https://picsum.photos por tus fotos para personalizar.');
+</script>
+</body>
+</html>

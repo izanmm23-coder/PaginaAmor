@@ -30,12 +30,11 @@ body{
   margin:auto;
   padding:20px;
   position:relative;
-  z-index:2;
+  z-index:3;
 }
 
 h1{
   text-align:center;
-  font-size:2.2rem;
   color:var(--dorado);
   margin:40px 0;
 }
@@ -70,7 +69,6 @@ li{margin-bottom:10px;}
   overflow:hidden;
   border-radius:18px;
   margin:35px 0;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 .carousel-track{
   display:flex;
@@ -78,7 +76,7 @@ li{margin-bottom:10px;}
 }
 .carousel img{
   width:100%;
-  height:300px;
+  height:230px;
   object-fit:cover;
   flex-shrink:0;
 }
@@ -87,9 +85,9 @@ li{margin-bottom:10px;}
   top:50%;
   transform:translateY(-50%);
   background:rgba(0,0,0,.5);
-  border:none;
   color:white;
-  font-size:24px;
+  border:none;
+  font-size:22px;
   padding:8px 12px;
   border-radius:50%;
 }
@@ -107,7 +105,7 @@ li{margin-bottom:10px;}
   color:white;
   box-shadow:0 6px 15px rgba(0,0,0,.4);
   transition:transform .15s ease, box-shadow .15s ease;
-  z-index:3;
+  z-index:5;
 }
 .music-btn{
   bottom:20px;
@@ -123,37 +121,45 @@ li{margin-bottom:10px;}
 }
 .music-btn:active,.sad-btn:active{
   transform:scale(.9);
-  box-shadow:0 3px 8px rgba(0,0,0,.6);
+}
+
+/* MENSAJE TRISTE */
+#mensaje-extra{
+  display:none;
+  margin-top:25px;
+  padding:20px;
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+/* NIEVE */
+.snowflake{
+  position:fixed;
+  top:-10vh;
+  color:white;
+  opacity:.6;
+  animation:fall linear infinite;
+  z-index:1;
 }
 
 /* CORAZONES */
-.hearts{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-}
 .heart{
-  position:absolute;
+  position:fixed;
+  top:-10vh;
+  color:rgba(255,105,135,.7);
   animation:fall linear infinite;
-  opacity:.6;
-}
-@keyframes fall{
-  from{transform:translateY(-10vh) rotate(0deg);}
-  to{transform:translateY(110vh) rotate(360deg);}
+  z-index:2;
+  cursor:pointer;
 }
 
-@media(max-width:600px){
-  h1{font-size:1.9rem;}
-  h2{font-size:1.6rem;}
-  .carousel img{height:210px;}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);}
 }
 </style>
 </head>
 
 <body>
-
-<div class="hearts" id="hearts"></div>
 
 <button class="sad-btn" id="sadBtn">💔 Ábrelo cuando estés triste</button>
 <button class="music-btn" id="musicBtn">🎵 Música</button>
@@ -169,6 +175,14 @@ li{margin-bottom:10px;}
 <p id="mensaje-triste" class="fade">
 He creado esta pagina web para que siempre que te apetezca o estés mal, puedas recordar los momentos mas bonitos que hemos vivido juntos y lo mucho que te quiero y te voy a querer pase lo que pase. A partir de ahora, encontraras un pedazo extraido de mi corazón que he dejado en esta web para que nunca olvides lo que he sentido, siento y sentiré por ti el resto de mi vida.
 </p>
+
+<div id="mensaje-extra">
+<p>
+Si has llegado hasta aquí es porque hoy pesa un poco más de lo normal.
+Respira. Estoy contigo incluso cuando no sabes cómo seguir.
+Esto también pasará, y no tienes que hacerlo solo.
+</p>
+</div>
 
 <h2 class="fade">Porque me gustas tanto</h2>
 
@@ -199,16 +213,7 @@ He creado esta pagina web para que siempre que te apetezca o estés mal, puedas 
 </div>
 
 <h2 class="fade">Felices Fiestas</h2>
-
-<p class="fade">
-Este año ha tenido de todo, y no siempre cosas buenas. Ha habido momentos de estrés, de cansancio y de sentir que las cosas se nos venían encima. Días en los que parecía que no llegábamos a todo y en los que la paciencia se agotaba demasiado rápido. Aun así, en medio de todo eso, hemos seguido adelante, compartiendo la rutina, los silencios y también las conversaciones difíciles que tanto cuestan pero que tanto importan.
-</p>
-<p class="fade">
-Estas fiestas llegan como una pausa necesaria, no para fingir que todo ha sido perfecto, sino para reconocer el esfuerzo que hemos hecho para seguir juntos. Para valorar que, a pesar de los problemas, de los enfados y de las dudas, ninguno de los dos se ha ido. Hemos aprendido que estar juntos no es solo disfrutar de lo bueno, sino también sostenernos cuando lo demás pesa más de la cuenta.
-</p>
-<p class="fade">
-Por eso, para mí, estas fiestas significan seguir aquí contigo. Significan elegirnos una vez más, sin promesas vacías ni palabras bonitas de más. Solo la certeza de que, incluso en los momentos difíciles, seguimos caminando en la misma dirección.
-</p>
+<p class="fade">Este año ha tenido de todo, y no siempre cosas buenas...</p>
 
 <div class="carousel fade" data-carousel>
   <div class="carousel-track">
@@ -221,16 +226,7 @@ Por eso, para mí, estas fiestas significan seguir aquí contigo. Significan ele
 </div>
 
 <h2 class="fade">Gracias por ser tú</h2>
-
-<p class="fade">
-Gracias por ser quien eres incluso en los días complicados. Por no esconder tus emociones y por permitirme ver tus miedos, tus inseguridades y también tu fuerza. Gracias por hablar cuando duele, por escuchar cuando no es fácil y por intentar entenderme incluso cuando no estamos de acuerdo.
-</p>
-<p class="fade">
-Gracias por quedarte cuando las cosas se ponen cuesta arriba. Por no rendirte a la primera y por apostar por nosotros aun sabiendo que no siempre es sencillo. Tu manera de afrontar los problemas, de decir lo que sientes y de seguir intentándolo es algo que valoro más de lo que a veces sé expresar.
-</p>
-<p class="fade">
-No te doy las gracias por ser perfecta, porque no lo eres y no lo necesitas. Te las doy por ser real, por ser honesta y por ser tú, con todo lo que eso implica. Y porque, con todo y con eso, sigues siendo la persona con la que quiero compartir mi vida.
-</p>
+<p class="fade">Gracias por ser quien eres incluso en los días complicados...</p>
 
 <div class="carousel fade" data-carousel>
   <div class="carousel-track">
@@ -243,16 +239,7 @@ No te doy las gracias por ser perfecta, porque no lo eres y no lo necesitas. Te 
 </div>
 
 <h2 class="fade">Lo que queda por llegar</h2>
-
-<p class="fade">
-No tengo respuestas para todo ni puedo prometer que el camino será fácil. Sé que vendrán más retos, más discusiones y momentos en los que habrá que volver a elegir quedarse. Pero también sé que todo lo que hemos pasado hasta ahora nos ha enseñado a hacerlo mejor, con más paciencia y más comprensión.
-</p>
-<p class="fade">
-Lo que queda por llegar no lo imagino perfecto, lo imagino verdadero. Con días buenos y otros no tanto, con errores y aprendizajes, pero siempre con la intención de avanzar juntos. Quiero seguir creciendo contigo, equivocándome, mejorando y construyendo algo que tenga sentido para los dos.
-</p>
-<p class="fade">
-Si algo tengo claro es que quiero enfrentar lo que venga a tu lado. No porque sea fácil, sino porque vale la pena. Seguimos aquí, y mientras sigamos eligiéndonos, todo lo que queda por llegar merece la pena vivirlo juntos.
-</p>
+<p class="fade">No tengo respuestas para todo ni puedo prometer...</p>
 
 <div class="carousel fade" data-carousel>
   <div class="carousel-track">
@@ -293,39 +280,35 @@ const musicBtn=document.getElementById('musicBtn');
 music.volume=.3;
 let playing=false;
 musicBtn.onclick=()=>{
-  if(!playing){
-    music.play().then(()=>{
-      musicBtn.textContent='⏸ Música';
-      playing=true;
-    });
-  }else{
-    music.pause();
-    musicBtn.textContent='🎵 Música';
-    playing=false;
-  }
+  playing?music.pause():music.play();
+  playing=!playing;
 };
 
 /* BOTON TRISTE */
 document.getElementById('sadBtn').onclick=()=>{
-  document.getElementById('mensaje-triste')
-    .scrollIntoView({behavior:'smooth'});
+  document.getElementById('mensaje-triste').scrollIntoView({behavior:'smooth'});
+  document.getElementById('mensaje-extra').style.display='block';
 };
 
-/* CORAZONES */
-const hearts=document.getElementById('hearts');
-const count=window.innerWidth<600?15:25;
-for(let i=0;i<count;i++){
-  const h=document.createElement('div');
-  h.className='heart';
-  h.textContent='❤️';
-  h.style.left=Math.random()*100+'vw';
-  h.style.fontSize=14+Math.random()*18+'px';
-  h.style.animationDuration=8+Math.random()*10+'s';
-  hearts.appendChild(h);
+/* NIEVE + CORAZONES INTERACTIVOS */
+const total=window.innerWidth<600?20:30;
+for(let i=0;i<total;i++){
+  const el=document.createElement('div');
+  const isHeart=Math.random()>.5;
+  el.className=isHeart?'heart':'snowflake';
+  el.textContent=isHeart?'❤️':'❄️';
+  el.style.left=Math.random()*100+'vw';
+  el.style.fontSize=14+Math.random()*18+'px';
+  el.style.animationDuration=8+Math.random()*12+'s';
+  if(isHeart){
+    el.onclick=()=>{
+      el.style.transform='scale(2)';
+      el.style.opacity='0';
+    };
+  }
+  document.body.appendChild(el);
 }
 </script>
 
 </body>
 </html>
-
-
